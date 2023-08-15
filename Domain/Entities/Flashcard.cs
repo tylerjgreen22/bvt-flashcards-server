@@ -1,11 +1,14 @@
+using Domain.Entities;
+
 namespace Domain
 {
     // The flashcard entity, the core entity of the project
-    public class Flashcard
+    public class Flashcard : BaseEntity
     {
-        public Guid Id { get; set; }
         public string Term { get; set; }
         public string Definition { get; set; }
         public string PictureUrl { get; set; }
+        public Set Set { get; set; }
+        public int SetId { get; set; }
     }
 }

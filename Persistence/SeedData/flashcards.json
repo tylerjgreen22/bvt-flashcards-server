@@ -1,0 +1,92 @@
+[
+  {
+    "Term": "What does HTML stand for?",
+    "Definition": "Hyper Text Markup Language",
+    "PictureUrl": "test",
+    "SetId": 1
+  },
+  {
+    "Term": "What does CSS stand for?",
+    "Definition": "Cascading Style Sheets",
+    "PictureUrl": "",
+    "SetId": 1
+  },
+  {
+    "Term": "What is the correct HTML element for the largest heading?",
+    "Definition": "<h1>",
+    "PictureUrl": "",
+    "SetId": 1
+  },
+  {
+    "Term": "Which HTML attribute specifies an alternate text for an image, if the image cannot be displayed?",
+    "Definition": "Hyper Text Markup Language",
+    "PictureUrl": "",
+    "SetId": 1
+  },
+  {
+    "Term": "Which CSS property is used to change the text color of an element?",
+    "Definition": "color",
+    "PictureUrl": "",
+    "SetId": 1
+  },
+  {
+    "Term": "What is JavaScript?",
+    "Definition": "JavaScript is a programming language",
+    "PictureUrl": "",
+    "SetId": 2
+  },
+  {
+    "Term": "What is the output of the following code?\n\nconsole.log(2 + '2');",
+    "Definition": "22",
+    "PictureUrl": "",
+    "SetId": 2
+  },
+  {
+    "Term": "What is the correct way to create a JavaScript array?",
+    "Definition": "var colors = [\"red\", \"green\", \"blue\"]",
+    "PictureUrl": "test",
+    "SetId": 2
+  },
+  {
+    "Term": "Which built-in method removes the last element from an array and returns that element?",
+    "Definition": "pop()",
+    "PictureUrl": "",
+    "SetId": 2
+  },
+  {
+    "Term": "Which operator is used to assign a value to a variable?",
+    "Definition": "=",
+    "PictureUrl": "",
+    "SetId": 2
+  },
+  {
+    "Term": "What is React?",
+    "Definition": "React is a front-end JavaScript library",
+    "PictureUrl": "",
+    "SetId": 3
+  },
+  {
+    "Term": "What is JSX?",
+    "Definition": "JSX is a syntax extension for JavaScript",
+    "PictureUrl": "",
+    "SetId": 3
+  },
+  {
+    "Term": "What is the purpose of state in React?",
+    "Definition": "State is used to store and manage component data",
+    "PictureUrl": "",
+    "SetId": 3
+  },
+  {
+    "Term": "Which lifecycle method is called immediately after a component is added to the DOM?",
+    "Definition": "componentDidMount()",
+    "PictureUrl": "test",
+    "SetId": 3
+  },
+  {
+    "Term": "What is the purpose of the key prop in React?",
+    "Definition": "The key prop is used for performance optimization",
+    "PictureUrl": "",
+    "SetId": 3
+  }
+]
