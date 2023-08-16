@@ -43,7 +43,6 @@ namespace API.Extensions
             // Adding Fluent validation service
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<CreateSet>();
-            services.AddValidatorsFromAssemblyContaining<CreateFlashcard>();
 
             return services;
         }

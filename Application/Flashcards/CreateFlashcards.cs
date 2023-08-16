@@ -7,21 +7,12 @@ using Persistence;
 namespace Application.Flashcards
 {
     // Mediator class for creating flashcards. Method returns are wrapped in a result object that faciliates error handling
-    public class CreateFlashcard
+    public class CreateFlashcards
     {
         // Class to create the command, extends IRequest and has a property for the flashcard being created
         public class Command : IRequest<Result<Unit>>
         {
-            public Flashcard Flashcard { get; set; }
-        }
-
-        // Creating a command validator that will validate the incoming set against the validations rules set in the SetValidator
-        public class CommandValidator : AbstractValidator<Command>
-        {
-            public CommandValidator()
-            {
-                RuleFor(x => x.Flashcard).SetValidator(new FlashcardValidator());
-            }
+            public Flashcard[] Flashcards { get; set; }
         }
 
         // Handler class that uses the created command to handle the request to the Mediator
@@ -34,10 +25,17 @@ namespace Application.Flashcards
                 _context = context;
             }
 
-            // Handle method that adds the flashcard to the database
+            // Handle method that adds the flashcards to the database
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Flashcards.Add(request.Flashcard);
+                foreach (var flashcard in request.Flashcards)
+                {
+                    if (flashcard.Term == "") return Result<Unit>.Failure($"Term cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.Definition == "") return Result<Unit>.Failure($"Definition cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.SetId < 0) return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
+
+                    _context.Flashcards.Add(flashcard);
+                }
 
                 var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to create flashcard");

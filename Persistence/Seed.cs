@@ -1,14 +1,23 @@
 using System.Text.Json;
 using Domain;
 using Domain.Entities;
+using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Persistence
 {
     // Seed class to seed the database using json files
     public class Seed
     {
-        public static async Task SeedAsync(DataContext context)
+        public static async Task SeedAsync(DataContext context, UserManager<AppUser> userManager)
         {
+            // Seed a user
+            if (!userManager.Users.Any())
+            {
+                var user = new AppUser { DisplayName = "Quizlit", UserName = "quizlit", Email = "quizlit@test.com" };
+                await userManager.CreateAsync(user, "Pa$$w0rd");
+            }
+
             // Seeding sets
             if (!context.Sets.Any())
             {

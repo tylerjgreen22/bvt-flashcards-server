@@ -27,9 +27,7 @@ namespace Application.Sets
             // Handle method that uses the created query to obtain the requested flashcard
             public async Task<Result<Set>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var set = await _context.Sets.FindAsync(request.Id);
-
-                return Result<Set>.Success(set);
+                return Result<Set>.Success(await _context.Sets.FindAsync(request.Id));
             }
         }
     }
