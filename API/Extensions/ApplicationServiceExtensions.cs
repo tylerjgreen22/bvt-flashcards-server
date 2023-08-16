@@ -1,6 +1,8 @@
 using Application.Core;
 using Application.Flashcards;
 using Application.Sets;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -37,6 +39,11 @@ namespace API.Extensions
 
             // Adding auto mapper service
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+            // Adding Fluent validation service
+            services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<CreateSet>();
+            services.AddValidatorsFromAssemblyContaining<CreateFlashcard>();
 
             return services;
         }

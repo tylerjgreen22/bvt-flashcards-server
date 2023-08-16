@@ -13,21 +13,21 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Set>>> GetSets()
         {
-            return await Mediator.Send(new ListSets.Query());
+            return HandleResult(await Mediator.Send(new ListSets.Query()));
         }
 
         // Get method to get a single set by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Set>> GetSet(int id)
         {
-            return await Mediator.Send(new DetailedSet.Query { Id = id });
+            return HandleResult(await Mediator.Send(new DetailedSet.Query { Id = id }));
         }
 
         // Post method to create a set
         [HttpPost]
         public async Task<IActionResult> CreateSet(Set set)
         {
-            return Ok(await Mediator.Send(new CreateSet.Command { Set = set }));
+            return HandleResult(await Mediator.Send(new CreateSet.Command { Set = set }));
         }
 
         // Put method to update a set based on ID
@@ -35,14 +35,14 @@ namespace API.Controllers
         public async Task<IActionResult> EditSet(int id, Set set)
         {
             set.Id = id;
-            return Ok(await Mediator.Send(new EditSet.Command { Set = set }));
+            return HandleResult(await Mediator.Send(new EditSet.Command { Set = set }));
         }
 
         // Delete method to delete a set based on ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSet(int id)
         {
-            return Ok(await Mediator.Send(new DeleteSet.Command { Id = id }));
+            return HandleResult(await Mediator.Send(new DeleteSet.Command { Id = id }));
         }
     }
 }
