@@ -1,14 +1,11 @@
-using Domain.Entities;
-
-namespace Domain
+namespace Application.DTOs
 {
-    // The flashcard entity, the core entity of the project
-    public class Flashcard : BaseEntity
+    public class FlashcardDto
     {
+        public string Id { get; set; }
         public string Term { get; set; }
         public string Definition { get; set; }
         public string PictureUrl { get; set; }
-        public Set Set { get; set; }
         public Guid SetId { get; set; }
     }
 }

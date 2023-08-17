@@ -1,5 +1,6 @@
 using Application.Sets;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -16,14 +17,23 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new ListSets.Query()));
         }
 
+        // Get method to get all sets belonging to a user
+        [Authorize]
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<List<Set>>> GetUserSets(string userId)
+        {
+            return HandleResult(await Mediator.Send(new ListSetsByUser.Query { UserId = userId }));
+        }
+
         // Get method to get a single set by ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<Set>> GetSet(int id)
+        public async Task<ActionResult<Set>> GetSet(Guid id)
         {
             return HandleResult(await Mediator.Send(new DetailedSet.Query { Id = id }));
         }
 
         // Post method to create a set
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateSet(Set set)
         {
@@ -31,16 +41,18 @@ namespace API.Controllers
         }
 
         // Put method to update a set based on ID
+        [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditSet(int id, Set set)
+        public async Task<IActionResult> EditSet(Guid id, Set set)
         {
             set.Id = id;
             return HandleResult(await Mediator.Send(new EditSet.Command { Set = set }));
         }
 
         // Delete method to delete a set based on ID
+        [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSet(int id)
+        public async Task<IActionResult> DeleteSet(Guid id)
         {
             return HandleResult(await Mediator.Send(new DeleteSet.Command { Id = id }));
         }

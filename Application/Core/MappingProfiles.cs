@@ -1,3 +1,4 @@
+using Application.DTOs;
 using AutoMapper;
 using Domain;
 using Domain.Entities;
@@ -11,6 +12,9 @@ namespace Application.Core
         {
             CreateMap<Set, Set>();
             CreateMap<Flashcard, Flashcard>();
+            CreateMap<Set, SetDto>()
+                .ForMember(dest => dest.AppUser, opt => opt.MapFrom(src => src.AppUser.UserName));
+            CreateMap<Flashcard, FlashcardDto>();
         }
     }
 }

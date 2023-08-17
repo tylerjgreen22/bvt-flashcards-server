@@ -15,7 +15,7 @@ namespace Application.Flashcards
         public class Command : IRequest<Result<Unit>>
         {
             public Flashcard[] Flashcards { get; set; }
-            public int SetId { get; set; }
+            public Guid SetId { get; set; }
         }
 
         // Handler class that handles the request to Mediator
@@ -41,7 +41,7 @@ namespace Application.Flashcards
                 {
                     if (flashcard.Term == "") return Result<Unit>.Failure($"Term cannot be empty on flashcard: {flashcard.Id}");
                     if (flashcard.Definition == "") return Result<Unit>.Failure($"Definition cannot be empty on flashcard: {flashcard.Id}");
-                    if (flashcard.SetId < 0) return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.SetId == Guid.Empty) return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
 
                     var existingFlashcard = existingFlashcards.FirstOrDefault(f => f.Id == flashcard.Id);
 

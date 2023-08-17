@@ -11,6 +11,38 @@ namespace Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<Guid>(
+                name: "Id",
+                table: "Sets",
+                type: "TEXT",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "INTEGER")
+                .OldAnnotation("Sqlite:Autoincrement", true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "AppUserId",
+                table: "Sets",
+                type: "TEXT",
+                nullable: true);
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "SetId",
+                table: "Flashcards",
+                type: "TEXT",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "INTEGER");
+
+            migrationBuilder.AlterColumn<Guid>(
+                name: "Id",
+                table: "Flashcards",
+                type: "TEXT",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "INTEGER")
+                .OldAnnotation("Sqlite:Autoincrement", true);
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -30,7 +62,6 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -158,6 +189,11 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Sets_AppUserId",
+                table: "Sets",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -193,11 +229,22 @@ namespace Persistence.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Sets_AspNetUsers_AppUserId",
+                table: "Sets",
+                column: "AppUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Sets_AspNetUsers_AppUserId",
+                table: "Sets");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -218,6 +265,40 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Sets_AppUserId",
+                table: "Sets");
+
+            migrationBuilder.DropColumn(
+                name: "AppUserId",
+                table: "Sets");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                table: "Sets",
+                type: "INTEGER",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldType: "TEXT")
+                .Annotation("Sqlite:Autoincrement", true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "SetId",
+                table: "Flashcards",
+                type: "INTEGER",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldType: "TEXT");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Id",
+                table: "Flashcards",
+                type: "INTEGER",
+                nullable: false,
+                oldClrType: typeof(Guid),
+                oldType: "TEXT")
+                .Annotation("Sqlite:Autoincrement", true);
         }
     }
 }

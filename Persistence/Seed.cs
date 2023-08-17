@@ -14,8 +14,12 @@ namespace Persistence
             // Seed a user
             if (!userManager.Users.Any())
             {
-                var user = new AppUser { DisplayName = "Quizlit", UserName = "quizlit", Email = "quizlit@test.com" };
-                await userManager.CreateAsync(user, "Pa$$w0rd");
+                var usersData = File.ReadAllText("../Persistence/SeedData/users.json");
+                var users = JsonSerializer.Deserialize<List<AppUser>>(usersData);
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
+                }
             }
 
             // Seeding sets

@@ -1,5 +1,6 @@
 using Application.Core;
 using Domain.Entities;
+using Domain.Entities.Identity;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -38,6 +39,14 @@ namespace Application.Sets
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Sets.Add(request.Set);
+                foreach (var flashcard in request.Set.Flashcards)
+                {
+                    if (flashcard.Term == "") return Result<Unit>.Failure($"Term cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.Definition == "") return Result<Unit>.Failure($"Definition cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.SetId == Guid.Empty) return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
+
+                    _context.Flashcards.Add(flashcard);
+                }
 
                 var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to create set");

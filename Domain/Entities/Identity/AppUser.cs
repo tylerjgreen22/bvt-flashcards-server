@@ -4,6 +4,6 @@ namespace Domain.Entities.Identity
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
+        public ICollection<Set> Sets { get; set; }
     }
 }

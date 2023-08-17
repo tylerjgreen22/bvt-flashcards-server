@@ -1,17 +1,17 @@
 [
   {
-    "Id": 1,
     "Title": "HTML and CSS",
-    "Description": "Collection of flashcards about HTML and CSS"
+    "Description": "Collection of flashcards about HTML and CSS",
+    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
   },
   {
-    "Id": 2,
     "Title": "JavaScript",
-    "Description": "Collection of flashcards about JavaScript"
+    "Description": "Collection of flashcards about JavaScript",
+    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
   },
   {
-    "Id": 3,
     "Title": "React",
-    "Description": ""
+    "Description": "",
+    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
   }
 ]

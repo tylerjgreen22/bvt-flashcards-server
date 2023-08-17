@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230816170152_IdentityAdded")]
+    [Migration("20230817050458_IdentityAdded")]
     partial class IdentityAdded
     {
         /// <inheritdoc />
@@ -30,9 +30,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -89,9 +86,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Set", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -101,14 +101,16 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
                     b.ToTable("Sets");
                 });
 
             modelBuilder.Entity("Domain.Flashcard", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Definition")
                         .HasColumnType("TEXT");
@@ -116,8 +118,8 @@ namespace Persistence.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SetId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("SetId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Term")
                         .HasColumnType("TEXT");
@@ -257,10 +259,19 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Set", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.AppUser", "AppUser")
+                        .WithMany("Sets")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Domain.Flashcard", b =>
                 {
                     b.HasOne("Domain.Entities.Set", "Set")
-                        .WithMany()
+                        .WithMany("Flashcards")
                         .HasForeignKey("SetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -317,6 +328,16 @@ namespace Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Identity.AppUser", b =>
+                {
+                    b.Navigation("Sets");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Set", b =>
+                {
+                    b.Navigation("Flashcards");
                 });
 #pragma warning restore 612, 618
         }

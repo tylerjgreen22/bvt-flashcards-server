@@ -1,3 +1,5 @@
+using Domain.Entities.Identity;
+
 namespace Domain.Entities
 {
     // The set entity, used for grouping flashcards and associating flashcards to a user
@@ -5,5 +7,8 @@ namespace Domain.Entities
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public AppUser AppUser { get; set; }
+        public string AppUserId { get; set; }
+        public ICollection<Flashcard> Flashcards { get; set; }
     }
 }
