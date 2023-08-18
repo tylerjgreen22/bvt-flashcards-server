@@ -8,7 +8,9 @@ namespace Application.Sets
     {
         public SetValidator()
         {
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Title).NotEmpty();
+            RuleFor(x => x.AppUserId).NotEmpty();
         }
     }
 }

@@ -1,12 +1,37 @@
 [
   {
+    "Id": "265446eb-e5f2-47a5-b0fe-c8111855315a",
     "UserName": "quizlit",
-    "Email": "quizlit@test.com",
-    "UserId": 1
+    "Email": "quizlit@test.com"
   },
   {
+    "Id": "a887081f-26e6-447c-8108-1f3a96a44695",
     "UserName": "tyler",
-    "Email": "tyler@test.com",
-    "UserId": 2
+    "Email": "tyler@test.com"
+  },
+  {
+    "Id": "dff4c26f-fc77-409f-847f-1543922fd87f",
+    "UserName": "loren",
+    "Email": "loren@test.com"
+  },
+  {
+    "Id": "ca587720-ba61-4e67-abf0-ab082baccd16",
+    "UserName": "ray",
+    "Email": "ray@test.com"
+  },
+  {
+    "Id": "066a45c4-c9e1-4e0f-9f01-73177b283ac2",
+    "UserName": "jorge",
+    "Email": "jorge@test.com"
+  },
+  {
+    "Id": "f46e2736-ed6b-422f-96a9-b8a70e63e824",
+    "UserName": "jesus",
+    "Email": "jesus@test.com"
+  },
+  {
+    "Id": "9e873a3f-418e-4297-8f53-f2ea03434ad3",
+    "UserName": "daniel",
+    "Email": "daniel@test.com"
   }
 ]

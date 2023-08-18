@@ -1,17 +1,122 @@
 [
   {
+    "Id": "C05D7500-4E01-48FE-B607-EE629282F25B",
     "Title": "HTML and CSS",
     "Description": "Collection of flashcards about HTML and CSS",
-    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
+    "AppUserId": "265446eb-e5f2-47a5-b0fe-c8111855315a"
   },
   {
+    "Id": "D3BE9DBE-3921-4C6B-8D3F-C2DB4516E09A",
     "Title": "JavaScript",
     "Description": "Collection of flashcards about JavaScript",
-    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
+    "AppUserId": "265446eb-e5f2-47a5-b0fe-c8111855315a"
   },
   {
+    "Id": "8A139723-2D80-49D1-9FA6-7E7BA6CBDD3D",
     "Title": "React",
     "Description": "",
-    "AppUserId": "dec99460-d4c8-4099-963d-a47fbf6adb8b"
+    "AppUserId": "265446eb-e5f2-47a5-b0fe-c8111855315a"
+  },
+  {
+    "Id": "F7D24C8C-42E7-47C4-937A-3D4E9FED30E9",
+    "Title": "Python Basics",
+    "Description": "Introduction to Python programming language",
+    "AppUserId": "dff4c26f-fc77-409f-847f-1543922fd87f"
+  },
+  {
+    "Id": "A5B6E344-5D02-4C4F-9DDE-26E1B379ACDA",
+    "Title": "Responsive Web Design",
+    "Description": "Designing websites for different devices",
+    "AppUserId": "ca587720-ba61-4e67-abf0-ab082baccd16"
+  },
+  {
+    "Id": "6741A5C7-82D1-4E1E-9F10-FE93B8D9BDE6",
+    "Title": "Node.js Essentials",
+    "Description": "Fundamentals of server-side JavaScript with Node.js",
+    "AppUserId": "066a45c4-c9e1-4e0f-9f01-73177b283ac2"
+  },
+  {
+    "Id": "B36EF9B6-7BBB-44FC-A739-81B11A0EB320",
+    "Title": "CSS Grid Layout",
+    "Description": "Creating complex layouts with CSS Grid",
+    "AppUserId": "f46e2736-ed6b-422f-96a9-b8a70e63e824"
+  },
+  {
+    "Id": "B8EB20A0-5733-402C-BF92-0A6CBA2620A2",
+    "Title": "Introduction to SQL",
+    "Description": "Getting started with SQL databases",
+    "AppUserId": "9e873a3f-418e-4297-8f53-f2ea03434ad3"
+  },
+  {
+    "Id": "B3F3009E-6A31-4F23-A8C1-04A4C8CDB300",
+    "Title": "Responsive Web Design",
+    "Description": "Creating user-friendly websites for all devices",
+    "AppUserId": "dff4c26f-fc77-409f-847f-1543922fd87f"
+  },
+  {
+    "Id": "D9A77BFC-47C9-4A5C-91F2-2C840F83E1E7",
+    "Title": "Web Accessibility",
+    "Description": "Making web content accessible to everyone",
+    "AppUserId": "ca587720-ba61-4e67-abf0-ab082baccd16"
+  },
+  {
+    "Id": "DCFDDBB3-93AE-42DD-B6FA-25E0B2B392F3",
+    "Title": "RESTful APIs",
+    "Description": "Building APIs following REST architecture",
+    "AppUserId": "066a45c4-c9e1-4e0f-9f01-73177b283ac2"
+  },
+  {
+    "Id": "4A4EB580-C9D0-4B3D-937A-C1CE557F8D9B",
+    "Title": "SASS Fundamentals",
+    "Description": "Introduction to SASS preprocessor for CSS",
+    "AppUserId": "f46e2736-ed6b-422f-96a9-b8a70e63e824"
+  },
+  {
+    "Id": "765C7C53-1E53-4A61-A6AC-FCC52E67492C",
+    "Title": "Database Design Principles",
+    "Description": "Fundamentals of designing efficient databases",
+    "AppUserId": "9e873a3f-418e-4297-8f53-f2ea03434ad3"
+  },
+  {
+    "Id": "E48163A1-DBDF-4E9A-B7A1-FBEBFD687A1C",
+    "Title": "Webpack Configuration",
+    "Description": "Setting up Webpack for modern web development",
+    "AppUserId": "dff4c26f-fc77-409f-847f-1543922fd87f"
+  },
+  {
+    "Id": "1D9E4392-4D08-4F0B-9C2A-BA64DC2ECE35",
+    "Title": "Responsive Design Patterns",
+    "Description": "Common design patterns for responsive websites",
+    "AppUserId": "ca587720-ba61-4e67-abf0-ab082baccd16"
+  },
+  {
+    "Id": "D3A3780A-4397-47F6-BCA1-509DF82C3841",
+    "Title": "RESTful API Design",
+    "Description": "Best practices for designing RESTful APIs",
+    "AppUserId": "066a45c4-c9e1-4e0f-9f01-73177b283ac2"
+  },
+  {
+    "Id": "EF3C6739-46B5-43ED-9C6F-28EB6FD282E0",
+    "Title": "CSS Flexbox",
+    "Description": "Building flexible layouts with CSS Flexbox",
+    "AppUserId": "f46e2736-ed6b-422f-96a9-b8a70e63e824"
+  },
+  {
+    "Id": "FF16E543-6DD7-45C3-8A96-10A3E226E2E5",
+    "Title": "Introduction to NoSQL Databases",
+    "Description": "Exploring non-relational database options",
+    "AppUserId": "9e873a3f-418e-4297-8f53-f2ea03434ad3"
+  },
+  {
+    "Id": "6827648A-64D3-4F09-A6D9-F4321EEDCD32",
+    "Title": "Front-End Performance Optimization",
+    "Description": "Techniques for optimizing front-end performance",
+    "AppUserId": "265446eb-e5f2-47a5-b0fe-c8111855315a"
+  },
+  {
+    "Id": "E9E04762-23E2-46E7-82A3-3E511DF64B4E",
+    "Title": "Web Animation with CSS",
+    "Description": "Creating engaging animations using CSS",
+    "AppUserId": "265446eb-e5f2-47a5-b0fe-c8111855315a"
   }
 ]

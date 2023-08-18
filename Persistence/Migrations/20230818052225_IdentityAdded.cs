@@ -26,6 +26,13 @@ namespace Persistence.Migrations
                 type: "TEXT",
                 nullable: true);
 
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CreatedAt",
+                table: "Sets",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
             migrationBuilder.AlterColumn<Guid>(
                 name: "SetId",
                 table: "Flashcards",
@@ -42,6 +49,13 @@ namespace Persistence.Migrations
                 oldClrType: typeof(int),
                 oldType: "INTEGER")
                 .OldAnnotation("Sqlite:Autoincrement", true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CreatedAt",
+                table: "Flashcards",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -273,6 +287,14 @@ namespace Persistence.Migrations
             migrationBuilder.DropColumn(
                 name: "AppUserId",
                 table: "Sets");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedAt",
+                table: "Sets");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedAt",
+                table: "Flashcards");
 
             migrationBuilder.AlterColumn<int>(
                 name: "Id",

@@ -1,3 +1,4 @@
+using Application.Core;
 using Application.Sets;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -12,17 +13,9 @@ namespace API.Controllers
 
         // Get method to get all sets
         [HttpGet]
-        public async Task<ActionResult<List<Set>>> GetSets()
+        public async Task<ActionResult<List<Set>>> GetSets([FromQuery] PagingParams param)
         {
-            return HandleResult(await Mediator.Send(new ListSets.Query()));
-        }
-
-        // Get method to get all sets belonging to a user
-        [Authorize]
-        [HttpGet("user/{userId}")]
-        public async Task<ActionResult<List<Set>>> GetUserSets(string userId)
-        {
-            return HandleResult(await Mediator.Send(new ListSetsByUser.Query { UserId = userId }));
+            return HandlePagedResult(await Mediator.Send(new ListSets.Query { Params = param }));
         }
 
         // Get method to get a single set by ID
