@@ -21,7 +21,7 @@ Gets the flashcards for a given set
 
 Gets a users claims information, requires authorization header with JWT token
 
-### [Post]
+# [Post]
 
 ## /sets
 
@@ -35,7 +35,7 @@ Logins in a user, return JWT Token and user info
 
 Registers a user, returns JWT Token and user info
 
-### [Put]
+# [Put]
 
 ## /sets/{setId}
 
@@ -45,7 +45,7 @@ Updates a set based on the setId. Only updates the set information such as title
 
 Updates the flashcards based on the set they belong too. Requires Auth
 
-### [Delete]
+# [Delete]
 
 ## /sets/{setId}
 
