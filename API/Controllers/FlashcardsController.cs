@@ -12,7 +12,7 @@ namespace API.Controllers
 
         // Get method to get all flashcards by the set Id
         [HttpGet("{setId}")]
-        public async Task<ActionResult<List<Flashcard>>> GetFlashcards(Guid setId)
+        public async Task<ActionResult<List<Flashcard>>> GetFlashcards(string setId)
         {
             return HandleResult(await Mediator.Send(new ListFlashcards.Query { SetId = setId }));
         }
@@ -28,7 +28,7 @@ namespace API.Controllers
         // Put method to update flashcards based on set ID
         [Authorize]
         [HttpPut("{setId}")]
-        public async Task<IActionResult> EditFlashcards(Guid setId, [FromBody] Flashcard[] flashcards)
+        public async Task<IActionResult> EditFlashcards(string setId, [FromBody] Flashcard[] flashcards)
         {
             return HandleResult(await Mediator.Send(new EditFlashcards.Command { SetId = setId, Flashcards = flashcards }));
         }

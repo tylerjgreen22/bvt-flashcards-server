@@ -14,7 +14,7 @@ namespace Application.Flashcards
         // Creating a query that extends IRequest with a type of a list of flashcards
         public class Query : IRequest<Result<List<FlashcardDto>>>
         {
-            public Guid SetId { get; set; }
+            public string SetId { get; set; }
         }
 
         // Handler class that uses the query of type Flashcard list to process the request to Mediator

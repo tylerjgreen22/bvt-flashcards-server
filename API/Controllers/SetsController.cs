@@ -20,7 +20,7 @@ namespace API.Controllers
 
         // Get method to get a single set by ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<Set>> GetSet(Guid id)
+        public async Task<ActionResult<Set>> GetSet(string id)
         {
             return HandleResult(await Mediator.Send(new DetailedSet.Query { Id = id }));
         }
@@ -36,7 +36,7 @@ namespace API.Controllers
         // Put method to update a set based on ID
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditSet(Guid id, Set set)
+        public async Task<IActionResult> EditSet(string id, Set set)
         {
             set.Id = id;
             return HandleResult(await Mediator.Send(new EditSet.Command { Set = set }));
@@ -45,7 +45,7 @@ namespace API.Controllers
         // Delete method to delete a set based on ID
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSet(Guid id)
+        public async Task<IActionResult> DeleteSet(string id)
         {
             return HandleResult(await Mediator.Send(new DeleteSet.Command { Id = id }));
         }

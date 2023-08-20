@@ -10,7 +10,7 @@ namespace Application.Sets
         // Creating a command that extends IRequest, and contains a property Id
         public class Command : IRequest<Result<Unit>>
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
         }
 
         // Handler class that handles the request to Mediator

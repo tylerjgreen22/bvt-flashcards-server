@@ -15,14 +15,15 @@ namespace Persistence
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<Set> Sets { get; set; }
 
-        // protected override void OnModelCreating(ModelBuilder builder)
-        // {
-        //     base.OnModelCreating(builder);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
-        //     builder.Entity<Set>()
-        //         .HasOne(s => s.AppUser)
-        //         .WithMany()
-        //         .HasForeignKey(s => s.AppUserId);
-        // }
+            builder.Entity<Set>()
+                .HasMany(s => s.Flashcards)
+                .WithOne(f => f.Set)
+                .HasForeignKey(f => f.SetId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

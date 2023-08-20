@@ -42,7 +42,7 @@ namespace Application.Sets
                 {
                     if (flashcard.Term == "") return Result<Unit>.Failure($"Term cannot be empty on flashcard: {flashcard.Id}");
                     if (flashcard.Definition == "") return Result<Unit>.Failure($"Definition cannot be empty on flashcard: {flashcard.Id}");
-                    if (flashcard.SetId == Guid.Empty) return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
+                    if (flashcard.SetId == "") return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
 
                     _context.Flashcards.Add(flashcard);
                 }
