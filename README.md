@@ -11,7 +11,7 @@ Gets the sets, query parameters for sorting and filtering include: pageSize, pag
 
 Ex: https://bvtflashcardsserver.fly.dev/api/sets?orderBy=Recent&search=CSS
 
-Gets all sets with CSS in title and ordered by recent
+Gets all sets with CSS in title and ordered by recent, default pagination is 10 results per page
 
 ## /flashcards/{setId}
 
