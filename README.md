@@ -3,7 +3,7 @@
 
 All endpoints start with the base url https://bvtflashcardsserver.fly.dev/api/
 
-[Get]
+### [Get]
 
 # /sets
 
