@@ -1,5 +1,6 @@
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -23,9 +24,11 @@ namespace Application.Sets
             // Injecting data context to access DB
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
             {
+                _userAccessor = userAccessor;
                 _context = context;
                 _mapper = mapper;
 
@@ -34,10 +37,12 @@ namespace Application.Sets
             // Handle method that uses the created query to obtain the requested flashcard
             public async Task<Result<PagedList<SetDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var setsQuery = _context.Sets.Include(x => x.AppUser).OrderBy(s => s.Title.ToLower()).AsQueryable();
-                if (!string.IsNullOrEmpty(request.Params.AppUserId))
+                var setsQuery = _context.Sets.Include(x => x.AppUser).Include(x => x.Flashcards).OrderBy(s => s.Title.ToLower()).AsQueryable();
+                if (request.Params.ByUser)
                 {
-                    setsQuery = setsQuery.Where(s => s.AppUserId == request.Params.AppUserId);
+                    var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                    if (user == null) return Result<PagedList<SetDto>>.Failure("Incorrect query parameters");
+                    setsQuery = setsQuery.Where(s => s.AppUserId == user.Id);
                 }
                 if (!string.IsNullOrEmpty(request.Params.Search))
                 {

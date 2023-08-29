@@ -14,6 +14,7 @@ namespace Persistence
 
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<Set> Sets { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

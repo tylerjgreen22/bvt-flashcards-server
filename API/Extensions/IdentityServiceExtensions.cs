@@ -4,6 +4,8 @@ using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Extensions
 {
@@ -36,6 +38,16 @@ namespace API.Extensions
                         ValidateAudience = false
                     };
                 });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsOwner", policy =>
+                {
+                    policy.Requirements.Add(new IsOwnerRequirement());
+                });
+            });
+
+            services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
             // Adding token service to be injected throughout application
             services.AddScoped<TokenService>();

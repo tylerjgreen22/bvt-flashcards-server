@@ -1,7 +1,9 @@
 using Application.Core;
+using Application.Interfaces;
 using Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Sets
@@ -29,14 +31,19 @@ namespace Application.Sets
         {
             // Injecting the data context via dependency injection to allow interaction with database
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
+                _userAccessor = userAccessor;
                 _context = context;
             }
 
             // Handle method that adds the set to the database
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                request.Set.AppUserId = user.Id;
+
                 _context.Sets.Add(request.Set);
                 foreach (var flashcard in request.Set.Flashcards)
                 {

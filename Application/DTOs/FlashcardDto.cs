@@ -6,6 +6,6 @@ namespace Application.DTOs
         public string Term { get; set; }
         public string Definition { get; set; }
         public string PictureUrl { get; set; }
-        public Guid SetId { get; set; }
+        public string SetId { get; set; }
     }
 }

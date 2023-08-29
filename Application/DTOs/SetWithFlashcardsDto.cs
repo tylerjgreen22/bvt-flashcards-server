@@ -1,12 +1,13 @@
+using Domain;
+
 namespace Application.DTOs
 {
-    public class SetDto
+    public class SetWithFlashcardsDto
     {
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string AppUser { get; set; }
-        public string UserImage { get; set; }
-        public int CardCount { get; set; } = 0;
+        public ICollection<FlashcardDto> Flashcards { get; set; }
     }
 }

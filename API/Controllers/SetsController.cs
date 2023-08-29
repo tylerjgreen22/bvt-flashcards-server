@@ -34,7 +34,7 @@ namespace API.Controllers
         }
 
         // Put method to update a set based on ID
-        [Authorize]
+        [Authorize(Policy = "IsOwner")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditSet(string id, Set set)
         {
@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         // Delete method to delete a set based on ID
-        [Authorize]
+        [Authorize(Policy = "IsOwner")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSet(string id)
         {

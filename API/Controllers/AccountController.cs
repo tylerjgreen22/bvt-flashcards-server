@@ -78,9 +78,63 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = await _userManager.Users.Include(p => p.Pictures).FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             return CreateUserObject(user);
+        }
+
+        [Authorize]
+        [HttpPut("username")]
+        public async Task<IActionResult> ChangeUsername(ChangeUserDto changeUserDto)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (!await _userManager.CheckPasswordAsync(user, changeUserDto.Password))
+            {
+                return BadRequest("Incorrect password");
+            }
+            user.UserName = changeUserDto.Username;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPut("password")]
+        public async Task<IActionResult> ChangePassword(ChangeUserDto changeUserDto)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            var result = await _userManager.ChangePasswordAsync(user, changeUserDto.Password, changeUserDto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteUser(ChangeUserDto changeUserDto)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (!await _userManager.CheckPasswordAsync(user, changeUserDto.Password))
+            {
+                return BadRequest("Incorrect password");
+            }
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
         }
 
         // Helper method that creates a UserDto based on a passed in user
@@ -88,9 +142,8 @@ namespace API.Controllers
         {
             return new UserDto
             {
-                Id = user.Id,
                 Username = user.UserName,
-                Image = null,
+                Image = user?.Pictures?.FirstOrDefault(x => x.IsMain)?.Url,
                 Token = _tokenService.CreateToken(user)
             };
         }

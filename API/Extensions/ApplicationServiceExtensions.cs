@@ -1,8 +1,10 @@
 using Application.Core;
-using Application.Flashcards;
+using Application.Interfaces;
 using Application.Sets;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
+using Infrastructure.Pictures;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -17,6 +19,11 @@ namespace API.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            // services.AddDbContext<DataContext>(opt =>
+            // {
+            //     opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+            // });
 
             // Adding DB context to service container to be injected where needed
             services.AddDbContext<DataContext>(options =>
@@ -68,7 +75,6 @@ namespace API.Extensions
 
             // Adding mediator services
             services.AddMediatR(typeof(ListSets.Handler));
-            services.AddMediatR(typeof(ListFlashcards.Handler));
 
             // Adding auto mapper service
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
@@ -76,6 +82,12 @@ namespace API.Extensions
             // Adding Fluent validation service
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<CreateSet>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+
+            services.AddScoped<IPictureAccessor, PictureAccessor>();
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
             return services;
         }

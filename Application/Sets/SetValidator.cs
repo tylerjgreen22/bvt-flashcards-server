@@ -10,7 +10,6 @@ namespace Application.Sets
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Title).NotEmpty();
-            RuleFor(x => x.AppUserId).NotEmpty();
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Application.Core
         }
         public string Search { get; set; }
         public string OrderBy { get; set; }
-        public string AppUserId { get; set; }
+        public bool ByUser { get; set; }
     }
 }

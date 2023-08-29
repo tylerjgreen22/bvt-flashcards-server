@@ -12,7 +12,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230820202243_PostgresInitial")]
+    [Migration("20230829184312_PostgresInitial")]
     partial class PostgresInitial
     {
         /// <inheritdoc />
@@ -87,6 +87,27 @@ namespace Persistence.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Picture", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("Domain.Entities.Set", b =>
@@ -272,6 +293,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Picture", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.AppUser", null)
+                        .WithMany("Pictures")
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("Domain.Entities.Set", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.AppUser", "AppUser")
@@ -344,6 +372,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Identity.AppUser", b =>
                 {
+                    b.Navigation("Pictures");
+
                     b.Navigation("Sets");
                 });
 

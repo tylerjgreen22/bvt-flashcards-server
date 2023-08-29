@@ -7,6 +7,7 @@ COPY "bvt-flashcards-server.sln" "bvt-flashcards-server.sln"
 COPY "API/API.csproj" "API/API.csproj"
 COPY "Application/Application.csproj" "Application/Application.csproj"
 COPY "Persistence/Persistence.csproj" "Persistence/Persistence.csproj"
+COPY "Infrastructure/Infrastructure.csproj" "Infrastructure/Infrastructure.csproj"
 COPY "Domain/Domain.csproj" "Domain/Domain.csproj"
 
 RUN dotnet restore "bvt-flashcards-server.sln"

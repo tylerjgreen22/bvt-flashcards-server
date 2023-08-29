@@ -158,6 +158,25 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pictures",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    IsMain = table.Column<bool>(type: "boolean", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pictures_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sets",
                 columns: table => new
                 {
@@ -242,6 +261,11 @@ namespace Persistence.Migrations
                 column: "SetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pictures_AppUserId",
+                table: "Pictures",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sets_AppUserId",
                 table: "Sets",
                 column: "AppUserId");
@@ -267,6 +291,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Flashcards");
+
+            migrationBuilder.DropTable(
+                name: "Pictures");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
