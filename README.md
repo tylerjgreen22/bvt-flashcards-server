@@ -13,21 +13,21 @@ Ex: https://bvtflashcardsserver.fly.dev/api/sets?orderBy=Recent&search=CSS
 
 Gets all sets with CSS in title and ordered by recent, default pagination is 10 results per page
 
-## /flashcards/{setId}
+## /Sets/{setId}
 
-Gets the flashcards for a given set
+Gets the given set with flashcards
 
 ## /account
 
 Gets a users claims information, requires authorization header with JWT token
 
-# [Post]
+# [Post] - Requires Auth
 
 ## /sets
 
-Creates a set, also creates the flashcards for that set. Requires Auth
+Creates a set, also creates the flashcards for that set. 
 
-## /account/login
+## /account/login 
 
 Logins in a user, return JWT Token and user info
 
@@ -35,18 +35,30 @@ Logins in a user, return JWT Token and user info
 
 Registers a user, returns JWT Token and user info
 
-# [Put]
+## /account/delete
+
+Deletes user account
+
+## /pictures/add
+
+Adds provided picture
+
+# [Put] - Requires Auth
 
 ## /sets/{setId}
 
-Updates a set based on the setId. Only updates the set information such as title and description. Requires Auth
+Updates a set based on the setId. Updates flashcards with set
 
-## /flashcards/{setId}
+## /account/username
 
-Updates the flashcards based on the set they belong too. Requires Auth
+Change username for account
 
-# [Delete]
+## /account/password
+
+Change password for account
+
+# [Delete] - Requires Auth
 
 ## /sets/{setId}
 
-Deletes a set based on the Set Id. Not currently functioning
+Deletes a set based on the Set Id.
