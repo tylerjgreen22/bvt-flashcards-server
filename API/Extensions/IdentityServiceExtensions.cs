@@ -39,6 +39,7 @@ namespace API.Extensions
                     };
                 });
 
+            // Add authorization policy to prevent users from modifying resource they dont own
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("IsOwner", policy =>
@@ -47,6 +48,7 @@ namespace API.Extensions
                 });
             });
 
+            // Add IsOwnerRequirementHandler to prevent users from modifying resource that are not theirs
             services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
             // Adding token service to be injected throughout application

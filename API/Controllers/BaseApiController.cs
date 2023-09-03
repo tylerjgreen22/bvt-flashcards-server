@@ -26,6 +26,7 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
+        // HandleResult method but adds pagination information using AddPaginationHeader extension method
         protected ActionResult HandlePagedResult<T>(Result<PagedList<T>> result)
         {
             if (result == null) return NotFound();

@@ -4,16 +4,16 @@ using Persistence;
 
 namespace Application.Sets
 {
-    // Mediator class for deleting a set. Method returns are wrapped in a result object that faciliates error handling
+    // Delete a set from DB
     public class DeleteSet
     {
-        // Creating a command that extends IRequest, and contains a property Id
+        // Command request comes in with the id of the set to delete
         public class Command : IRequest<Result<Unit>>
         {
             public string Id { get; set; }
         }
 
-        // Handler class that handles the request to Mediator
+        // Handler that handles the command request
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             // Injecting data context to access DB
@@ -23,17 +23,22 @@ namespace Application.Sets
                 _context = context;
             }
 
-            // Handle method that uses the created command to perform delete operation
+            // Handle method that handles the command request
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                // Find the set that needs to be deleted. If not found return null. Remove the set
                 var set = await _context.Sets.FindAsync(request.Id);
                 if (set == null) return null;
                 _context.Remove(set);
 
-                var result = await _context.SaveChangesAsync() > 0;
-                if (!result) return Result<Unit>.Failure("Failed to delete the set");
+                // Save changes, if the changes save successfully, then this boolean will return true
+                var success = await _context.SaveChangesAsync() > 0;
 
-                return Result<Unit>.Success(Unit.Value);
+                // Return success if result is true
+                if (success) return Result<Unit>.Success(Unit.Value);
+
+                // Return failure with error message
+                return Result<Unit>.Failure("Failed to delete the set");
             }
         }
     }

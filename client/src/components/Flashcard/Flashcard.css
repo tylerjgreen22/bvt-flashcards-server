@@ -1,0 +1,60 @@
+.content-container {
+  max-width: 500px;
+}
+
+.card {
+  /* Sizing */
+  height: 100%;
+  width: 100%;
+
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.front,
+.back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: auto;
+
+  /* Alignment */
+  position: absolute;
+
+  /* Content Alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back {
+  transform: rotateY(180deg);
+  font-size: 24px;
+}
+
+.flip-exit {
+  transform: rotateY(0deg);
+}
+
+.flip-exit-active {
+  transform: rotateY(180deg);
+  transition: transform 300ms;
+  transition-timing-function: cubic-bezier(0.57, 0.21, 0.69, 1.25);
+}
+
+.flip-exit-done {
+  transform: rotateY(180deg);
+}
+
+.flip-enter {
+  transform: rotateY(180deg);
+}
+
+.flip-enter-active {
+  transform: rotateY(0deg);
+  transition: transform 300ms;
+  transition-timing-function: cubic-bezier(0.57, 0.21, 0.69, 1.25);
+}
+
+.flip-enter-done {
+  transform: rotateY(0deg);
+}

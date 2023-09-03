@@ -1,5 +1,7 @@
 namespace Application.DTOs
 {
+    // Flashcard DTO that removes the set object from the outgoing flashcards. The flashcards always go out with the set anyways, 
+    // so the set information is redundent here
     public class FlashcardDto
     {
         public string Id { get; set; }

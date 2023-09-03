@@ -1,5 +1,6 @@
 namespace Infrastructure.Pictures
 {
+    // Settings that are used to interact with Cloudinary API
     public class CloudinarySettings
     {
         public string CloudName { get; set; }

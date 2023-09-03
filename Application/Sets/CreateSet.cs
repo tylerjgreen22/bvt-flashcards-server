@@ -8,10 +8,10 @@ using Persistence;
 
 namespace Application.Sets
 {
-    // Mediator class for creating sets. Method returns are wrapped in a result object that faciliates error handling
+    // Add a set to the DB
     public class CreateSet
     {
-        // Class to create the command, extends IRequest and has a property for the sets being created
+        // Command request comes in with the set to be added
         public class Command : IRequest<Result<Unit>>
         {
             public Set Set { get; set; }
@@ -26,10 +26,10 @@ namespace Application.Sets
             }
         }
 
-        // Handler class that uses the created command to handle the request to the Mediator
+        // Handler that handles the command request
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            // Injecting the data context via dependency injection to allow interaction with database
+            // Injecting the db context and user accessor via constructor
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
             public Handler(DataContext context, IUserAccessor userAccessor)
@@ -38,26 +38,37 @@ namespace Application.Sets
                 _context = context;
             }
 
-            // Handle method that adds the set to the database
+            // Handle method that handles the command request
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                // Retreive the user making the request using the user accessor. If user not found return null
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                if (user == null) return null;
+
+                var setId = Guid.NewGuid().ToString();
+
+                // Set the app user id on the set to the found user id and create a set id
+                request.Set.Id = setId;
                 request.Set.AppUserId = user.Id;
 
-                _context.Sets.Add(request.Set);
+                // Set the flashcards in the request set to have a guid id and to have the set id that links them to the created set
                 foreach (var flashcard in request.Set.Flashcards)
                 {
-                    if (flashcard.Term == "") return Result<Unit>.Failure($"Term cannot be empty on flashcard: {flashcard.Id}");
-                    if (flashcard.Definition == "") return Result<Unit>.Failure($"Definition cannot be empty on flashcard: {flashcard.Id}");
-                    if (flashcard.SetId == "") return Result<Unit>.Failure($"SetId cannot be empty on flashcard: {flashcard.Id}");
-
-                    _context.Flashcards.Add(flashcard);
+                    flashcard.Id = Guid.NewGuid().ToString();
+                    flashcard.SetId = setId;
                 }
 
-                var result = await _context.SaveChangesAsync() > 0;
-                if (!result) return Result<Unit>.Failure("Failed to create set");
+                // Add the set to the db
+                _context.Sets.Add(request.Set);
 
-                return Result<Unit>.Success(Unit.Value);
+                // Save changes, if the changes save successfully, then this boolean will return true
+                var success = await _context.SaveChangesAsync() > 0;
+
+                // Return success if result is true
+                if (success) return Result<Unit>.Success(Unit.Value);
+
+                // Return failure with error message
+                return Result<Unit>.Failure("Failed to create set");
             }
         }
     }

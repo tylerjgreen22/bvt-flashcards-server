@@ -1,0 +1,21 @@
+.background {
+  background-color: #4bbeff;
+}
+
+.body-wrapper {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.editCard {
+  background-color: #9c73f6;
+  box-shadow: 2px 7px 43px -10px rgba(0, 0, 0, 0.75);
+}
+
+.editColor {
+  background-color: #9c73f6;
+}
+
+.editField {
+  background-color: #f1fafe5c;
+}

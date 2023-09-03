@@ -2,7 +2,7 @@ using Domain.Entities.Identity;
 
 namespace Domain.Entities
 {
-    // The set entity, used for grouping flashcards and associating flashcards to a user
+    // The set entity linked to the app user by the app user id and contains a collection of flashcards
     public class Set : BaseEntity
     {
         public string Title { get; set; }

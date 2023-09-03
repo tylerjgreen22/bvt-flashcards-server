@@ -1,6 +1,6 @@
 namespace Application.Core
 {
-    // Result object that facilitates error handling
+    // Result object that facilitates error handling. Takes in the value for a success and the error message for a failure
     public class Result<T>
     {
         public bool IsSuccess { get; set; }

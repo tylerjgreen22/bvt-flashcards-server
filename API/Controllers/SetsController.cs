@@ -38,8 +38,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditSet(string id, Set set)
         {
-            set.Id = id;
-            return HandleResult(await Mediator.Send(new EditSet.Command { Set = set }));
+            return HandleResult(await Mediator.Send(new EditSet.Command { Set = set, Id = id }));
         }
 
         // Delete method to delete a set based on ID

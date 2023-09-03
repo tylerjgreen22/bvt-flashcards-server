@@ -12,7 +12,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230829184312_PostgresInitial")]
+    [Migration("20230831225829_PostgresInitial")]
     partial class PostgresInitial
     {
         /// <inheritdoc />
@@ -304,7 +304,8 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.Identity.AppUser", "AppUser")
                         .WithMany("Sets")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AppUser");
                 });

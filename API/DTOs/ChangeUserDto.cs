@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
 {
-    // DTO for registering users, provides validation to meet Identity criteria, such as complex password
+    // DTO for changing user information, provides validation to meet Identity criteria, such as complex password
     public class ChangeUserDto
     {
         [EmailAddress]

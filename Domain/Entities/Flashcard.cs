@@ -2,7 +2,7 @@ using Domain.Entities;
 
 namespace Domain
 {
-    // The flashcard entity, the core entity of the project
+    // The flashcard entity, linked to the set entity via the set id
     public class Flashcard : BaseEntity
     {
         public string Term { get; set; }

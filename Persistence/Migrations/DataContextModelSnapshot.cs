@@ -301,7 +301,8 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.Identity.AppUser", "AppUser")
                         .WithMany("Sets")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AppUser");
                 });

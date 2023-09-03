@@ -8,6 +8,7 @@ using Infrastructure.Pictures;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using StackExchange.Redis;
 
 namespace API.Extensions
 {
@@ -19,11 +20,6 @@ namespace API.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
-            // services.AddDbContext<DataContext>(opt =>
-            // {
-            //     opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
-            // });
 
             // Adding DB context to service container to be injected where needed
             services.AddDbContext<DataContext>(options =>
@@ -64,6 +60,12 @@ namespace API.Extensions
                 options.UseNpgsql(connStr);
             });
 
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(options);
+            });
+
             // Adding cors policy to allow traffic from specified origin
             services.AddCors(opt =>
             {
@@ -73,19 +75,21 @@ namespace API.Extensions
                 });
             });
 
-            // Adding mediator services
+            // MediatR 
             services.AddMediatR(typeof(ListSets.Handler));
 
-            // Adding auto mapper service
+            // Auto mapper
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
-            // Adding Fluent validation service
+            // Fluent validation
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<CreateSet>();
 
+            // Add Http context accessor and user accessor
             services.AddHttpContextAccessor();
             services.AddScoped<IUserAccessor, UserAccessor>();
 
+            // Add picture accessor and Cloudinary settings to config
             services.AddScoped<IPictureAccessor, PictureAccessor>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 

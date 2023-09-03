@@ -1,5 +1,6 @@
 namespace Application.DTOs
 {
+    // Set DTO that contains the app users username, their profile picture and the total count of cards in that given set
     public class SetDto
     {
         public string Id { get; set; }

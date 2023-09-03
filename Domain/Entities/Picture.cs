@@ -1,5 +1,6 @@
 namespace Domain.Entities
 {
+    // Picture entity, used to store information from Cloudinary
     public class Picture
     {
         public string Id { get; set; }
