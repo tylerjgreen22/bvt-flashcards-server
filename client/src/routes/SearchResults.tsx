@@ -16,7 +16,10 @@ const SearchResults = () => {
   const [page, setPage] = useState<number>(1);
   const [sort, setSort] = useState("");
   const [loading, setLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
+  // Append relevant search params and query API for sets./ Set data and pagination information
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -39,6 +42,7 @@ const SearchResults = () => {
     fetchData();
   }, [page, search, sort]);
 
+  // On page change, set page to new value
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
     value: number
@@ -46,18 +50,18 @@ const SearchResults = () => {
     setPage(value);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
+  // On modal click, open modal
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // On modal close, set sort selected
   const handleClose = (sort: string) => {
     setSort(sort);
     setAnchorEl(null);
   };
 
+  // If loading return set loading skeleton
   if (loading)
     return (
       <div className="max-w-[1100px] mx-auto mt-6 p-2">
@@ -67,7 +71,7 @@ const SearchResults = () => {
 
   if (sets.length) {
     return (
-      <div className="max-w-[1100px] mx-auto mt-6 p-2">
+      <div className="max-w-[1100px] mx-auto mt-6 p-2 pb-56 md:pb-0">
         <div className="flex justify-between">
           <div className="bg-secondary w-fit px-4 rounded-md flex items-center cursor-pointer">
             <div onClick={handleClick}>
@@ -105,21 +109,20 @@ const SearchResults = () => {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className="max-w-[1100px] mx-auto mt-6 p-2">
-        <div className="mx-auto w-fit flex flex-col items-center bg-accent p-4 rounded-md text-white">
-          <h2 className="text-2xl text-bold">No sets found for that search!</h2>
-          <p>
-            Try another search or create your{" "}
-            <Link to="/Create" className="underline">
-              own
-            </Link>
-          </p>
-        </div>
-      </div>
-    );
   }
-};
 
+  return (
+    <div className="max-w-[1100px] mx-auto mt-6 p-2">
+      <div className="mx-auto w-fit flex flex-col items-center bg-accent p-4 rounded-md text-white">
+        <h2 className="text-2xl text-bold">No sets found for that search!</h2>
+        <p>
+          Try another search or create your{" "}
+          <Link to="/Create" className="underline">
+            own
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
 export default SearchResults;

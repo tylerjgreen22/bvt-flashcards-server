@@ -1,5 +1,6 @@
 import Picture from "./picture";
 
+// User model
 export interface User {
   username: string;
   token: string;
@@ -7,6 +8,7 @@ export interface User {
   pictures: Picture[];
 }
 
+// Log in / sign up user form values
 export interface UserFormValues {
   email: string;
   password: string;
@@ -14,6 +16,7 @@ export interface UserFormValues {
   confirmPassword?: string;
 }
 
+// Change username / password form values
 export interface ChangeUserFormValues {
   username?: string;
   password?: string;

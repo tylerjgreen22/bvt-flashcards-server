@@ -1,11 +1,13 @@
 import bg from "../assets/bg-image.png";
 import flashcards from "../assets/flashcards.jpg";
 
+// Home page
 const Home = () => {
   return (
-    <>
-      <div className="relative h-1/4 xl:h-3/6">
-        <img src={bg} alt="" className="w-full h-full z-0" />
+    <div className="pb-16 md:pb-0">
+      {/* Hero / Header  */}
+      <div className="relative h-[275px] xl:h-[500px]">
+        <img src={bg} alt="people studying" className="h-full w-full" />
         <div className="absolute bg-opacity-[.57] w-4/6 font-bold px-3 bg-accent rounded-r-3xl top-20">
           <div className="lg:hidden">
             <p className="text-center text-4xl px-2 text-white">Quiz Lit</p>
@@ -25,6 +27,7 @@ const Home = () => {
         <br />
       </div>
 
+      {/* Info / CTA */}
       <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div className="flex flex-col items-center justify-between w-full mb-10 lg:flex-row">
           <img
@@ -59,7 +62,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

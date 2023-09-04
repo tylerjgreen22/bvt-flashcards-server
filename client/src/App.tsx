@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./routes/Home";
-import NavBar from "./components/NavBar";
-import MobileNavBar from "./components/MobileNavBar";
+import NavBar from "./components/Navbar/NavBar";
+import MobileNavBar from "./components/Navbar/MobileNavBar";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import agent from "./api/agent";
@@ -15,6 +15,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
+  // On page load, fetch user if theres a token, set user context
   useEffect(() => {
     if (token) {
       setLoading(true);
@@ -35,59 +36,45 @@ function App() {
     }
   }, [setUser, token]);
 
+  // If loading, return home loading spinner
   if (loading)
     return (
-      <div className="bg-primary body-wrapper flex justify-center items-center">
+      <div className="bg-primary body-wrapper flex items-center">
         <HomeLoadingSpinner />
       </div>
     );
 
-  if (
-    location.pathname === "/Create" ||
-    location.pathname === "/Profile" ||
-    location.pathname === "/Study" ||
-    location.pathname === "/Edit"
-  ) {
-    return (
-      <>
-        <ToastContainer
-          position="bottom-right"
-          hideProgressBar
-          theme="colored"
-        />
-        <div className="max-lg:bg-mobile bg-primary body-wrapper">
-          <NavBar />
+  return (
+    <>
+      {/* Toast container for errors  */}
+      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+      {/* Navbar  */}
+      <NavBar />
+
+      {location.pathname === "/" ? (
+        <div className="bg-primary body-wrapper">
+          {/* Home page  */}
+          <Home />
+        </div>
+      ) : (
+        <div
+          className={
+            location.pathname === "/Create" ||
+            location.pathname === "/Profile" ||
+            location.pathname === "/Edit"
+              ? "bg-mobile lg:bg-primary body-wrapper"
+              : "bg-primary body-wrapper"
+          }
+        >
+          {/* Outlet  */}
           <Outlet />
         </div>
-        <MobileNavBar />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <ToastContainer
-          position="bottom-right"
-          hideProgressBar
-          theme="colored"
-        />
-        {location.pathname === "/" ? (
-          <>
-            <div className="bg-primary body-wrapper">
-              <NavBar />
-              <Home />
-            </div>
+      )}
 
-            <MobileNavBar />
-          </>
-        ) : (
-          <div className="bg-primary body-wrapper">
-            <NavBar />
-            <Outlet />
-          </div>
-        )}
-      </>
-    );
-  }
+      {/* Mobile nav bar */}
+      <MobileNavBar />
+    </>
+  );
 }
 
 export default App;

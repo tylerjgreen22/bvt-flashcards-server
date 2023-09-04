@@ -1,5 +1,6 @@
 import { Flashcard } from "./flashcard";
 
+// Set model
 export interface FlashcardSet {
   id?: string;
   title: string;

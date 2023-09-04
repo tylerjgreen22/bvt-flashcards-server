@@ -6,6 +6,7 @@ interface Props {
   setCropper: (cropper: Cropper) => void;
 }
 
+// Cropper for cropping picture and setting image preview
 const PictureWidgetCropper = ({ imagePreview, setCropper }: Props) => {
   return (
     <Cropper

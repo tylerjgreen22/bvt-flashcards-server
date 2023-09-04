@@ -7,10 +7,10 @@ import { Pagination as Paginate } from "../models/pagination";
 import SearchIcon from "@mui/icons-material/Search";
 import { Menu, MenuItem } from "@mui/material";
 import React from "react";
-import { router } from "./Routes";
 import SetLoadingSkeleton from "../components/Loading/SetLoadingSkeleton";
 import { Link } from "react-router-dom";
 
+// User library page
 const Library = () => {
   const [sets, setSets] = useState<FlashcardSet[]>([]);
   const [paginated, setPagination] = useState<Paginate>();
@@ -20,8 +20,11 @@ const Library = () => {
   const [sort, setSort] = useState("");
   const [pageReload, setPageReload] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const debounceDelay = 300;
 
+  // Append relevant search params and query API for sets. Debounce results if search. Set data and pagination information
   useEffect(() => {
     let timeout: number | null = null;
 
@@ -66,6 +69,7 @@ const Library = () => {
     };
   }, [page, search, sort, searchChanged, pageReload]);
 
+  // On page change, set page to new value
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
     value: number
@@ -73,36 +77,37 @@ const Library = () => {
     setPage(value);
   };
 
+  // On search, set search to value, reset page to 1 and setSearch to trigger debounced data fetch
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
     setPage(1);
     setSearchChanged(true);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
+  // On modal click, open modal
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // On modal close, set sort selected
   const handleClose = (sort: string) => {
     setSort(sort);
     setAnchorEl(null);
   };
 
+  // On delete, delete set and refetch data
   const handleDelete = async (id: string) => {
     setLoading(true);
     try {
       await agent.Set.delete(id);
       setPageReload(true);
       setLoading(false);
-      router.navigate("/Library");
     } catch (error) {
       setLoading(false);
     }
   };
 
+  // If loading return set loading skeleton
   if (loading)
     return (
       <div className="max-w-[1100px] mx-auto mt-6 p-2">
@@ -110,12 +115,11 @@ const Library = () => {
       </div>
     );
 
-  console.log(sets);
-
   return (
-    <div className="max-w-[1100px] mx-auto mt-6 p-2">
+    <div className="max-w-[1100px] mx-auto mt-6 p-2 pb-56 md:pb-0">
       {sets?.length ? (
         <>
+          {/* Sort  */}
           <div className="flex justify-between">
             <div className="bg-secondary w-fit px-4 rounded-md flex items-center cursor-pointer">
               <div onClick={handleClick}>
@@ -136,6 +140,8 @@ const Library = () => {
                 <MenuItem onClick={() => handleClose("")}>Title</MenuItem>
               </Menu>
             </div>
+
+            {/* Search  */}
             <div className="w-1/2 lg:w-1/4">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -151,6 +157,7 @@ const Library = () => {
             </div>
           </div>
 
+          {/* Sets  */}
           <div className="flex flex-col items-center justify-between">
             {sets
               ? sets.map((set: FlashcardSet) => (
@@ -162,6 +169,8 @@ const Library = () => {
                 ))
               : null}
           </div>
+
+          {/* Pagination component  */}
           <div className="bg-secondary rounded-md mt-9 w-fit mx-auto p-2">
             <Pagination
               count={paginated?.totalPages}
@@ -173,12 +182,20 @@ const Library = () => {
         </>
       ) : (
         <div className="mx-auto w-fit flex flex-col items-center bg-accent p-4 rounded-md text-white">
+          {/* No sets  */}
           <h2 className="text-2xl text-bold">No sets created!</h2>
           <p>
             Start creating your{" "}
             <Link to="/Create" className="underline">
-              own!
-            </Link>
+              own
+            </Link>{" "}
+            or try another{" "}
+            <span
+              onClick={() => setSearch("")}
+              className="underline cursor-pointer"
+            >
+              search
+            </span>
           </p>
         </div>
       )}

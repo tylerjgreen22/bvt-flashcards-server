@@ -8,12 +8,14 @@ type Flashcard = {
   image?: string;
 };
 
-function FlashcardDisplay(props: Flashcard) {
+// Flashcard with flip animation for main card on Study page
+const FlashcardDisplay = (props: Flashcard) => {
   const [showFront, setShowFront] = useState(true);
   const { question, answer } = props;
 
   return (
     <div className="h-[300px] lg:h-[500px] p-3 lg:w-5/6 mx-auto ">
+      {/* Transition for flip animation  */}
       <CSSTransition in={showFront} timeout={300} classNames="flip">
         <div
           className="card"
@@ -21,9 +23,12 @@ function FlashcardDisplay(props: Flashcard) {
             setShowFront((prev) => !prev);
           }}
         >
+          {/* Back of card */}
           <div className="card back bg-[#2e3856] text-3xl text-secondary font-bold rounded-md p-4">
             {answer}
           </div>
+
+          {/* Front of card */}
           <div className="card front bg-[#2e3856] text-3xl text-secondary font-bold rounded-md p-4">
             <div className="content-container">
               <h1 className="text-center">{question}</h1>
@@ -36,6 +41,6 @@ function FlashcardDisplay(props: Flashcard) {
       </CSSTransition>
     </div>
   );
-}
+};
 
 export default FlashcardDisplay;

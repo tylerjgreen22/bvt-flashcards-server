@@ -1,6 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
+// Loading skeleton for sets
 const SetLoadingSkeleton = () => {
   return (
     <Stack spacing={2}>

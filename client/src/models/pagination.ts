@@ -1,3 +1,4 @@
+// Pagination model
 export interface Pagination {
   currentPage: number;
   itemsPerPage: number;
@@ -5,6 +6,7 @@ export interface Pagination {
   totalPages: number;
 }
 
+// Class for creating paginated results that contain the data and pagination information
 export class PaginatedResult<T> {
   data: T;
   pagination: Pagination;
@@ -15,6 +17,7 @@ export class PaginatedResult<T> {
   }
 }
 
+// Create paging params based on passed in page number and size
 export class PagingParams {
   pageNumber;
   pageSize;

@@ -12,6 +12,7 @@ import FlashcardDisplay from "../components/Flashcard/FlashcardDisplay";
 import StudyLoadingSkeleton from "../components/Loading/StudyLoadingSkeleton";
 import { router } from "./Routes";
 
+// Sutdy page
 const Study = () => {
   const { id } = useParams();
   const [flashcardSet, setFlashcardSet] = useState<FlashcardSet>();
@@ -23,6 +24,7 @@ const Study = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Fetch the set to study
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -42,6 +44,7 @@ const Study = () => {
     fetchData();
   }, [id]);
 
+  // On select of a flashcard, set the flashcard to selected and update progress bar
   const handleSelect = (flashcard: Flashcard) => {
     setSelectedFlashcard(flashcard);
     if (flashcards && selectedFlashcard) {
@@ -58,6 +61,7 @@ const Study = () => {
     }
   };
 
+  // On change cards, increment/decrement the currently displayed cards
   const handleChangeCards = (direction: string) => {
     if (direction === "start" && end !== flashcards?.length) {
       setStart(start + 1);
@@ -70,6 +74,7 @@ const Study = () => {
     }
   };
 
+  // On click next button, set the selected flashcard to the next card and update progress bar
   const handleNext = () => {
     if (flashcards && selectedFlashcard) {
       const currIndex = flashcards?.indexOf(selectedFlashcard);
@@ -86,6 +91,7 @@ const Study = () => {
     }
   };
 
+  // On click back button, set the selected flashcard to the previous card and update progress bar
   const handleBack = () => {
     if (flashcards && selectedFlashcard) {
       const currIndex = flashcards?.indexOf(selectedFlashcard);
@@ -102,141 +108,157 @@ const Study = () => {
     }
   };
 
+  // On reset, set selected flashcard to null, reset progress bar
   const handleReset = (flashcard: Flashcard) => {
     setSelectedFlashcard(flashcard);
     setProgress(0);
   };
 
+  // If loading, return Study skeleton
   if (loading) {
     return (
       <div className="max-w-[1100px] mx-auto">
         <StudyLoadingSkeleton />
       </div>
     );
-  } else {
-    return (
-      <div className="max-w-[1100px] mx-auto">
-        {flashcardSet && (
-          <div>
-            <h2 className="text-4xl text-secondary text-center my-4">
-              {flashcardSet.title}
-            </h2>
+  }
 
-            {selectedFlashcard ? (
-              selectedFlashcard.pictureUrl ? (
-                <FlashcardDisplay
-                  question={selectedFlashcard.term}
-                  answer={selectedFlashcard.definition}
-                  image={selectedFlashcard.pictureUrl}
-                />
-              ) : (
-                <FlashcardDisplay
-                  question={selectedFlashcard.term}
-                  answer={selectedFlashcard.definition}
-                />
-              )
+  return (
+    <div className="max-w-[1100px] mx-auto pb-56 md:pb-0">
+      {flashcardSet && (
+        <div>
+          {/* Title  */}
+          <h2 className="text-4xl text-secondary text-center my-4">
+            {flashcardSet.title}
+          </h2>
+
+          {/* Selected flashcard  */}
+          {selectedFlashcard ? (
+            selectedFlashcard.pictureUrl ? (
+              <FlashcardDisplay
+                question={selectedFlashcard.term}
+                answer={selectedFlashcard.definition}
+                image={selectedFlashcard.pictureUrl}
+              />
             ) : (
-              <p className="h-[500px] lg:w-5/6 mx-auto  bg-[#2e3856] text-3xl text-secondary font-bold rounded-md p-4 flex justify-center items-center">
-                Complete!
-              </p>
-            )}
+              <FlashcardDisplay
+                question={selectedFlashcard.term}
+                answer={selectedFlashcard.definition}
+              />
+            )
+          ) : (
+            <p className="h-[500px] lg:w-5/6 mx-auto bg-[#2e3856] text-3xl text-secondary font-bold rounded-md p-4 flex justify-center items-center">
+              Complete!
+            </p>
+          )}
 
-            {selectedFlashcard ? (
-              <div className="flex justify-between w-5/6 mx-auto mt-4">
-                <button
-                  className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary"
-                  onClick={handleBack}
-                >
-                  Back
-                </button>
-                <button
-                  className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary"
-                  onClick={handleNext}
-                >
-                  Next
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center mt-4">
-                <button
-                  className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary mx-auto"
-                  onClick={() => flashcards && handleReset(flashcards[0])}
-                >
-                  Reset
-                </button>
-              </div>
-            )}
-
-            <LinearProgress
-              value={progress}
-              variant="determinate"
-              className="w-5/6 mx-auto mt-4"
-            />
-
-            <div className="text-secondary w-5/6 mx-auto mt-4 flex justify-between">
-              <div className="flex gap-2">
-                <Avatar
-                  sx={{ bgcolor: "#ff5722", width: 50, height: 50 }}
-                  className="cursor-pointer"
-                >
-                  <p className="text-2xl">
-                    {flashcardSet.appUser &&
-                      flashcardSet.appUser[0].toUpperCase()}
-                  </p>
-                </Avatar>
-                <div>
-                  <h3 className="text-sm">Created by </h3>
-                  <h2 className="text-lg">{flashcardSet.appUser}</h2>
-                </div>
-              </div>
+          {selectedFlashcard ? (
+            <div className="flex justify-between w-5/6 mx-auto mt-4">
+              {/* Back  */}
               <button
-                className="bg-accent px-4 pb-1 rounded-md text-secondary flex items-center"
-                onClick={() => router.navigate(`/Create/${flashcardSet.id}`)}
+                className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary"
+                onClick={handleBack}
               >
-                <IosShareIcon fontSize="medium" /> <p className="mt-1">Clone</p>
+                Back
+              </button>
+              {/* Next  */}
+              <button
+                className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary"
+                onClick={handleNext}
+              >
+                Next
               </button>
             </div>
+          ) : (
+            <div className="flex justify-center mt-4">
+              {/* Reset  */}
+              <button
+                className="bg-[#2e3856] py-2 px-4 rounded-md text-secondary mx-auto"
+                onClick={() => flashcards && handleReset(flashcards[0])}
+              >
+                Reset
+              </button>
+            </div>
+          )}
 
-            {selectedFlashcard ? (
-              <div className="flex flex-col md:flex-row gap-4 mt-12 justify-center items-center">
+          {/* Progress bar  */}
+          <LinearProgress
+            value={progress}
+            variant="determinate"
+            className="w-5/6 mx-auto mt-4"
+          />
+
+          {/* Created By  */}
+          <div className="text-secondary w-5/6 mx-auto mt-4 flex justify-between">
+            <div className="flex gap-2">
+              {/* Avatar */}
+              <Avatar
+                sx={{ bgcolor: "#ff5722", width: 50, height: 50 }}
+                className="cursor-pointer"
+              >
+                <p className="text-2xl">
+                  {flashcardSet.appUser &&
+                    flashcardSet.appUser[0].toUpperCase()}
+                </p>
+              </Avatar>
+              <div>
+                {/* Username  */}
+                <h3 className="text-sm">Created by </h3>
+                <h2 className="text-lg">{flashcardSet.appUser}</h2>
+              </div>
+            </div>
+            {/* Clone */}
+            <button
+              className="bg-accent px-4 pb-1 rounded-md text-secondary flex items-center"
+              onClick={() => router.navigate(`/Create/${flashcardSet.id}`)}
+            >
+              <IosShareIcon fontSize="medium" /> <p className="mt-1">Clone</p>
+            </button>
+          </div>
+
+          {/* Tablet+ back arrow */}
+          {selectedFlashcard ? (
+            <div className="flex flex-col md:flex-row gap-4 mt-12 justify-center items-center px-3">
+              <button
+                type="button"
+                onClick={() => handleChangeCards("end")}
+                className="hidden md:block"
+              >
+                <ArrowBackIcon />
+              </button>
+              {/* Currently displayed cards  */}
+              {currentCards?.map((flashcard: Flashcard) => (
+                <div
+                  key={flashcard.id}
+                  className="h-[200px] max-w-[400px] bg-secondary w-full md:w-1/2 flex justify-center items-center text-center rounded-md py-16"
+                  onClick={() => handleSelect(flashcard)}
+                >
+                  {flashcard.term}
+                </div>
+              ))}
+              <div className="flex gap-8">
+                {/* Mobile back arrow  */}
                 <button
                   type="button"
                   onClick={() => handleChangeCards("end")}
-                  className="hidden md:block"
+                  className="md:hidden"
                 >
                   <ArrowBackIcon />
                 </button>
-                {currentCards?.map((flashcard: Flashcard) => (
-                  <div
-                    key={flashcard.id}
-                    className="h-[200px] max-w-[400px] bg-secondary w-full md:w-1/2 flex justify-center items-center text-center rounded-md py-16"
-                    onClick={() => handleSelect(flashcard)}
-                  >
-                    {flashcard.term}
-                  </div>
-                ))}
-                <div className="flex gap-8">
-                  <button
-                    type="button"
-                    onClick={() => handleChangeCards("end")}
-                    className="md:hidden"
-                  >
-                    <ArrowBackIcon />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleChangeCards("start")}
-                  >
-                    <ArrowForwardIcon />
-                  </button>
-                </div>
+                {/* Forward arrow  */}
+                <button
+                  type="button"
+                  onClick={() => handleChangeCards("start")}
+                >
+                  <ArrowForwardIcon />
+                </button>
               </div>
-            ) : null}
-          </div>
-        )}
-      </div>
-    );
-  }
+            </div>
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Study;

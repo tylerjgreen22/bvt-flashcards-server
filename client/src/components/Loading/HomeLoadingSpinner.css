@@ -1,0 +1,13 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  /* Replace 'spinner' with the class name of your image element */
+  animation: spin 2s linear infinite; /* Adjust the duration as needed */
+}

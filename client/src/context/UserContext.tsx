@@ -10,15 +10,18 @@ interface UserContextProps {
   children: ReactNode;
 }
 
+// User context for tracking the user throughout the whole app
 export const UserContext = createContext<ContextProps>({
   user: null,
   setUser: () => {},
 });
 
+// Hook that calls useContext with the user context passed in
 export const useUserContext = () => {
   return useContext(UserContext);
 };
 
+// Provider that provides the user context to all children
 export const UserProvider = ({ children }: UserContextProps) => {
   const [user, setUser] = useState<User | null>(null);
 

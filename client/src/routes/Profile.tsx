@@ -9,6 +9,7 @@ import PictureUploadWidget from "../components/pictureUpload/PictureUploadWidget
 import { useUserContext } from "../context/UserContext";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// User profile page
 const Profile = () => {
   const { user, setUser } = useUserContext();
   const [addPictureMode, setAddPictureMode] = useState(false);
@@ -19,11 +20,13 @@ const Profile = () => {
   const regexPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/>.<,])(?!.*\s).{6,10}$/;
 
+  // Check username and password are present for change username
   const usernameSchema = Yup.object({
     username: Yup.string().required("The new username is required"),
     password: Yup.string().required("Password is required"),
   });
 
+  // Check passwords are present and are complex
   const passwordSchema = Yup.object({
     password: Yup.string().required("Password is required"),
     newPassword: Yup.string()
@@ -37,84 +40,82 @@ const Profile = () => {
       .required("Confirm password is required"),
   });
 
+  // On submit, if attemp to change username or password, refetch user information and set context
   const handleSubmit = async (values: ChangeUserFormValues) => {
     if (values.newPassword) {
       setLoading(true);
+
       try {
         await agent.Account.password(values);
-        const user = await agent.Account.current();
-        setUser(user);
+        setUser(await agent.Account.current());
         setLoading(false);
       } catch (error) {
+        console.log(error);
+      } finally {
         setLoading(false);
       }
     } else {
       setLoadingUsername(true);
+
       try {
         await agent.Account.username(values);
-        const user = await agent.Account.current();
-        setUser(user);
+        setUser(await agent.Account.current());
         setLoadingUsername(false);
       } catch (error) {
+        console.log(error);
+      } finally {
         setLoadingUsername(false);
       }
     }
   };
 
+  // On picture upload, upload picture to Cloudinary and refetch user, then reset user context. After, turn off picture add mode
   const handlePictureUpload = async (file: Blob) => {
     setLoadingPictures(true);
 
     try {
       await agent.Account.uploadPicture(file);
-
-      const data = await agent.Account.current();
-      setUser(data);
-
-      setAddPictureMode(false);
-
-      setLoadingPictures(false);
+      setUser(await agent.Account.current());
     } catch (error) {
+      console.log(error);
+    } finally {
       setAddPictureMode(false);
-
       setLoadingPictures(false);
     }
   };
 
+  // Set the users profile picture to the selected picture and refetch user. Reset user context
   const handleSetProfilePicture = async (pictureId: string) => {
     setLoadingPictures(true);
 
     try {
-      const result = await agent.Account.setProfilePicture(pictureId);
-
-      if (result) {
-        const data = await agent.Account.current();
-        setUser(data);
-      }
-
-      setLoadingPictures(false);
+      await agent.Account.setProfilePicture(pictureId);
+      setUser(await agent.Account.current());
     } catch (error) {
+      console.log(error);
+    } finally {
       setLoadingPictures(false);
     }
   };
 
+  // Delete the picture from the users pictures and refetch and reset user data and context
   const handleDeletePicture = async (pictureId: string) => {
     setLoadingPictures(true);
 
     try {
       await agent.Account.deletePicture(pictureId);
-
-      const data = await agent.Account.current();
-      setUser(data);
-
-      setLoadingPictures(false);
+      setUser(await agent.Account.current());
     } catch (error) {
+      console.log(error);
+    } finally {
       setLoadingPictures(false);
     }
   };
 
   if (user) {
     return (
-      <div className="max-w-[1100px] mx-auto mt-6 p-2 mb-32">
+      <div className="max-w-[1100px] mx-auto mt-6 p-2 mb-48 md:mb-0">
+        {/* User picture and name  */}
         <div className="w-fit mx-auto">
           {user.image ? (
             <Avatar
@@ -135,9 +136,11 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="bg-accent p-6 mt-4 rounded-xl w-3/4 lg:w-1/2 mx-auto">
+        {/* User pictures and add pictures */}
+        <div className="bg-accent p-6 mt-4 rounded-xl w-full md:w-3/4 lg:w-1/2 mx-auto">
           {addPictureMode ? (
             <>
+              {/* Add picture  */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Add Picture</h2>
                 <button
@@ -157,6 +160,7 @@ const Profile = () => {
             </>
           ) : (
             <>
+              {/* User pictures  */}
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-xl font-bold">Your Pictures</h2>
                 <button
@@ -218,8 +222,10 @@ const Profile = () => {
           )}
         </div>
 
-        <div className="bg-accent p-6 mt-4 rounded-xl w-3/4 lg:w-1/2 mx-auto">
+        {/* Change username */}
+        <div className="bg-accent p-6 mt-4 rounded-xl w-full md:w-3/4 lg:w-1/2 mx-auto">
           <h2 className="text-xl font-bold mb-4">Change Username</h2>
+          {/* Change username form  */}
           <Formik
             initialValues={{ username: "", password: "", error: null }}
             validationSchema={usernameSchema}
@@ -230,6 +236,7 @@ const Profile = () => {
           >
             {({ isValid, isSubmitting, dirty }) => (
               <Form className="flex flex-col gap-4">
+                {/* New username  */}
                 <Field
                   type="text"
                   name="username"
@@ -237,6 +244,8 @@ const Profile = () => {
                   placeholder="Enter new username"
                 />
                 <ErrorMessage name="username" component="div" />
+
+                {/* Password  */}
                 <Field
                   type="password"
                   name="password"
@@ -244,6 +253,8 @@ const Profile = () => {
                   placeholder="Enter new password"
                 />
                 <ErrorMessage name="password" component="div" />
+
+                {/* Submit  */}
                 <button
                   type="submit"
                   name="usernameBtn"
@@ -257,8 +268,10 @@ const Profile = () => {
           </Formik>
         </div>
 
-        <div className="flex flex-col gap-4 bg-accent p-6 mt-4 rounded-xl w-3/4 lg:w-1/2 mx-auto">
+        {/* Change password  */}
+        <div className="flex flex-col gap-4 bg-accent p-6 mt-4 rounded-xl w-full md:w-3/4 lg:w-1/2 mx-auto">
           <h2 className="text-xl font-bold">Change Password</h2>
+          {/* Change password form  */}
           <Formik
             initialValues={{
               password: "",
@@ -274,6 +287,7 @@ const Profile = () => {
           >
             {({ isValid, isSubmitting, dirty }) => (
               <Form className="flex flex-col gap-4">
+                {/* Password  */}
                 <Field
                   type="password"
                   name="password"
@@ -281,6 +295,7 @@ const Profile = () => {
                   placeholder="Enter password"
                 />
                 <ErrorMessage name="password" component="div" />
+                {/* New password  */}
                 <Field
                   type="password"
                   name="newPassword"
@@ -288,6 +303,7 @@ const Profile = () => {
                   placeholder="Enter new password"
                 />
                 <ErrorMessage name="newPassword" component="div" />
+                {/* Confirm new password  */}
                 <Field
                   type="password"
                   name="confirmPassword"
@@ -295,6 +311,7 @@ const Profile = () => {
                   placeholder="Confirm new password"
                 />
                 <ErrorMessage name="confirmPassword" component="div" />
+                {/* Submit  */}
                 <button
                   type="submit"
                   className="text-white bg-purple-900 w-28 rounded-full p-2 mx-auto disabled:bg-gray-900 disabled:text-gray-200"
@@ -308,8 +325,6 @@ const Profile = () => {
         </div>
       </div>
     );
-  } else {
-    return null;
   }
 };
 

@@ -6,25 +6,32 @@ import Picture from "../models/picture";
 import { router } from "../routes/Routes";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL = "http://localhost:5000/api/";
+// Handles all interaction with the API
 
+// API Url
+axios.defaults.baseURL = import.meta.env.VITE_API_URL + "/";
+
+// Pull response data from response
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
+// Sleep timer for development delay
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 };
 
+// Attach token to outgoing requests
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
+// Incoming response interceptor that parses pagination information and handles errors
 axios.interceptors.response.use(
   async (response) => {
-    await sleep(5000);
+    if (import.meta.env.DEV) await sleep(1000);
     const pagination = response.headers["pagination"];
     if (pagination) {
       response.data = new PaginatedResult(
@@ -58,6 +65,7 @@ axios.interceptors.response.use(
   }
 );
 
+// Requests that the API can handle
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
   post: <T>(url: string, body: object) =>
@@ -67,6 +75,7 @@ const requests = {
   delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
+// Account API endpoints
 const Account = {
   current: () => requests.get<User>("account"),
   login: (user: UserFormValues) => requests.post<User>("account/login", user),
@@ -90,6 +99,7 @@ const Account = {
   deletePicture: (id: string) => requests.delete(`/pictures/${id}`),
 };
 
+// Set API endpoints
 const Set = {
   list: (params: URLSearchParams) =>
     axios

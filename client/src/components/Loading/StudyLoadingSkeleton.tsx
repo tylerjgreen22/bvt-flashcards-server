@@ -1,6 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
+// Loading skeleton for study page
 const StudyLoadingSkeleton = () => {
   return (
     <Stack spacing={2} className="flex items-center w-5/6">

@@ -6,16 +6,19 @@ interface Props {
   uploadPicture: (file: Blob) => void;
 }
 
+//Widget for uploading picture to Cloudinary via API
 const PictureUploadWidget = ({ uploadPicture }: Props) => {
   const [files, setFiles] = useState<any>([]);
   const [cropper, setCropper] = useState<Cropper>();
 
+  // Upload cropped image from cropper
   const onCrop = () => {
     if (cropper) {
       cropper.getCroppedCanvas().toBlob((blob) => uploadPicture(blob!));
     }
   };
 
+  // Clean up created object URLs
   useEffect(() => {
     return () => {
       files.forEach((file: any) => URL.revokeObjectURL(file.preview));
@@ -23,12 +26,14 @@ const PictureUploadWidget = ({ uploadPicture }: Props) => {
   }, [files]);
 
   return (
-    <div>
+    <>
       <div>
+        {/* Drop zone for adding picture  */}
         <h2 className="text-lg mb-2">Step One - Add Picture</h2>
         <PictureWidgetDropzone setFiles={setFiles} />
       </div>
       <div>
+        {/* Cropper for resizing picture  */}
         <h2 className="text-lg my-2">Step Two - Resize Picture</h2>
         {files && files.length > 0 && (
           <PictureWidgetCropper
@@ -38,6 +43,7 @@ const PictureUploadWidget = ({ uploadPicture }: Props) => {
         )}
       </div>
       <div>
+        {/* Upload cropped picture */}
         <h2 className="text-lg my-2">Step Three - Preview and upload</h2>
         {files && files.length > 0 && (
           <>
@@ -56,7 +62,7 @@ const PictureUploadWidget = ({ uploadPicture }: Props) => {
           </>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,3 +1,4 @@
+// Flashcard model
 export interface Flashcard {
   id?: string;
   term: string;

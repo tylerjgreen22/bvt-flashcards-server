@@ -14,6 +14,7 @@ import { useUserContext } from "../context/UserContext";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 
+// Validation schema for sign up, check that username, email password and confirm password match specified requirements
 const validationSchema = Yup.object().shape({
   username: Yup.string()
     .required("Username is required")
@@ -41,7 +42,8 @@ const validationSchema = Yup.object().shape({
     .required("Confirm password is required"),
 });
 
-function Signup() {
+// Sign up page
+const Signup = () => {
   const { setUser } = useUserContext();
   const [loading, setLoading] = useState(false);
   return (
@@ -49,11 +51,14 @@ function Signup() {
       className="bg-cover overflow-y-hidden"
       style={{ backgroundImage: `url(${loginbg})`, height: "100vh" }}
     >
+      {/* Link to home  */}
       <div className="p-3 w-max">
         <Link to="/">
           <img src={logo} className="h-14 w-auto rounded-xl" />
         </Link>
       </div>
+
+      {/* Title  */}
       <div className="drop-shadow-[0px_4px_4px_rgba(0,0,0,0.45)] flex top-40 left-0 pl-40 bg-primary rounded-r-xl mr-[50px]">
         <p
           id="title-text"
@@ -62,7 +67,8 @@ function Signup() {
           Signup
         </p>
       </div>
-      {/*login? card*/}
+
+      {/* Log in card */}
       <div className="flex justify-center mt-14">
         <div className="drop-shadow-[0px_4px_4px_rgba(0,0,0,0.45)] relative bg-accent -top-[140px] w-[275px] h-[185px] rounded-2xl m-[160px]">
           <p className="mt-[5px] ml-[10px] w-[275px]">
@@ -76,12 +82,13 @@ function Signup() {
           </p>
         </div>
       </div>
-      {/* signup card */}
+
+      {/* Sign up card */}
       <div
         className="z-10 pb-[10px] px-[20px] pt-[20px] text-center relative m-auto w-[275px] bg-cover drop-shadow-[0px_4px_4px_rgba(0,0,0,0.65)] rounded-2xl -top-[451px] left-[30px]"
         style={{ backgroundImage: `url(${flashcardbg})` }}
       >
-        {/*form stuff*/}
+        {/* Sign up form */}
         <Formik
           initialValues={{
             username: "",
@@ -90,6 +97,7 @@ function Signup() {
             confirmPassword: "",
           }}
           validationSchema={validationSchema}
+          // On submit, attempt to register user and set LS token, as well as set user in context. Naivgate to library if successful
           onSubmit={async (values: UserFormValues) => {
             setLoading(true);
             try {
@@ -100,9 +108,10 @@ function Signup() {
               });
               localStorage.setItem("token", user.token);
               setUser(user);
-              setLoading(false);
               router.navigate("/Library");
             } catch (error) {
+              console.log(error);
+            } finally {
               setLoading(false);
             }
           }}
@@ -121,7 +130,7 @@ function Signup() {
                     <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
                   </svg>
                 </span>
-                {/*username v*/}
+                {/* Username v*/}
                 <Field
                   name="username"
                   type="text"
@@ -154,7 +163,7 @@ function Signup() {
                     <path d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z" />
                   </svg>
                 </span>
-                {/*email v*/}
+                {/* Email */}
                 <Field
                   name="email"
                   type="email"
@@ -196,7 +205,7 @@ function Signup() {
                     />
                   </svg>
                 </span>
-                {/*password v*/}
+                {/* Password */}
                 <Field
                   name="password"
                   type="password"
@@ -217,7 +226,7 @@ function Signup() {
                   {errors.password}
                 </p>
               ) : null}
-              {/*password 2 v*/}
+              {/* Confirm password*/}
               <div className="flex">
                 <span className="inline-flex items-center px-[10px] text-sky-800 bg-blue-700 border border-r-0 border-gray-300 rounded-l-md">
                   <svg
@@ -258,7 +267,7 @@ function Signup() {
                   {errors.confirmPassword}
                 </p>
               ) : null}
-
+              {/* Submit  */}
               <div className="text-center">
                 <button
                   type="submit"
@@ -274,6 +283,6 @@ function Signup() {
       </div>
     </div>
   );
-}
+};
 
 export default Signup;

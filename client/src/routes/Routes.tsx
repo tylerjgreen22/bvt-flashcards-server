@@ -11,6 +11,7 @@ import Edit from "./Edit";
 import NotFound from "./NotFound";
 import RequireAuth from "./RequireAuth";
 
+// Routes
 export const routes: RouteObject[] = [
   {
     path: "/",

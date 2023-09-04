@@ -14,6 +14,7 @@ import { useUserContext } from "../context/UserContext";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// Validation schema for login, checks that email is valid and both email and password are entered
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .matches(
@@ -24,6 +25,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
+// Log in
 const Login = () => {
   const { setUser } = useUserContext();
   const [loading, setLoading] = useState(false);
@@ -33,11 +35,14 @@ const Login = () => {
       className="bg-cover overflow-y-hidden"
       style={{ backgroundImage: `url(${loginbg})`, height: "100vh" }}
     >
+      {/* Link to home  */}
       <div className="p-3 w-max">
         <Link to="/">
           <img src={logo} className="h-14 w-auto rounded-xl" />
         </Link>
       </div>
+
+      {/* Title  */}
       <div className="drop-shadow-[0px_4px_4px_rgba(0,0,0,0.45)] flex top-40 right-0 pr-40 bg-accent rounded-l-xl ml-[50px]">
         <p
           id="title-text"
@@ -46,7 +51,7 @@ const Login = () => {
           Welcome
         </p>
       </div>
-      {/*signup? card*/}
+      {/* Signup card */}
       <div className="flex justify-center mt-16">
         <div className="relative w-[275px] h-[185px] bg-primary drop-shadow-[0px_4px_4px_rgba(0,0,0,0.65)] rounded-2xl -top-[5px] left-[30px]">
           <p className="absolute top-[10px] ml-[10px] ">
@@ -66,13 +71,14 @@ const Login = () => {
         className="z-10 drop-shadow-[0px_4px_4px_rgba(0,0,0,0.45)] relative m-auto bg-cover bg-no-repeat bg-white px-[25px] pt-[25px] pb-[10px] rounded-2xl -top-[150px] max-w-fit"
         style={{ backgroundImage: `url(${flashcardbg}) ` }}
       >
-        {/*form stuff*/}
+        {/* Login form */}
         <Formik
           initialValues={{
             email: "",
             password: "",
           }}
           validationSchema={validationSchema}
+          // On submit, attempt to login user and set LS token, as well as set user in context. Naivgate to library if successful
           onSubmit={async (values: UserFormValues) => {
             setLoading(true);
             try {
@@ -82,9 +88,10 @@ const Login = () => {
               });
               localStorage.setItem("token", user.token);
               setUser(user);
-              setLoading(false);
               router.navigate("/Library");
             } catch (error) {
+              console.log(error);
+            } finally {
               setLoading(false);
             }
           }}
@@ -103,7 +110,7 @@ const Login = () => {
                     <path d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z" />
                   </svg>
                 </span>
-                {/*email v*/}
+                {/* Email v*/}
                 <Field
                   name="email"
                   type="email"
@@ -144,7 +151,7 @@ const Login = () => {
                     />
                   </svg>
                 </span>
-                {/*password v*/}
+                {/* Password */}
                 <Field
                   name="password"
                   type="password"
@@ -165,7 +172,8 @@ const Login = () => {
                   {errors.password}
                 </p>
               ) : null}
-              <div className="text-center">
+              {/* Submit  */}
+              <div className="text-center pt-4">
                 <button
                   type="submit"
                   disabled={Object.keys(errors).length > 0}
