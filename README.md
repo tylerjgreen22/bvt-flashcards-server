@@ -28,7 +28,7 @@ Authentication: ASP.net Identity w/ JWT (JSON Web Tokens)
 
 Try the application for yourself at: https://bvtflashcards.fly.dev/
 
-##Contact
+## Contact
 For any questions or inquiries, please contact me at tylerjgreen22@gmail.com.
 
 Start creating, studying, and mastering your subjects with the BVT Flashcard Application! 📚📖
