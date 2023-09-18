@@ -1,64 +1,34 @@
-# bvt-flashcards-server
-# End points
+# BVT Flashcard Application
+This web-based study tool is designed to help users create, manage, and study sets of flashcards. With React on the front end and ASP.NET Core on the backend, this application provides a robust and efficient platform for effective learning.
 
-All endpoints start with the base url https://bvtflashcardsserver.fly.dev/api/
+## Features
+User Authentication: Users can create accounts, log in, and manage their profiles.
 
-# [Get]
+Flashcard Sets: Create, edit, and delete sets of flashcards for various subjects and topics.
 
-## /sets
+Study Mode: Users can study their own flashcard sets or explore sets created by other users.
 
-Gets the sets, query parameters for sorting and filtering include: pageSize, pageNumber, search, orderBy, appUserId
+Clone and Modify: Clone other users' flashcard sets to your library and make modifications to suit your learning needs.
 
-Ex: https://bvtflashcardsserver.fly.dev/api/sets?orderBy=Recent&search=CSS
+Cloudinary Image hosting: Images for user profile pictures and flashcards are stored in the Cloudinary image CDN for fast retrieval
 
-Gets all sets with CSS in title and ordered by recent, default pagination is 10 results per page
+## Architechture
 
-## /Sets/{setId}
+Clean Architecture: Our application follows a clean architecture pattern, which promotes code organization and separation of concerns.
 
-Gets the given set with flashcards
+CQRS and MediatR Patterns: Utilizing the CQRS pattern and MediatR library to separate command and query responsibilities, improving code maintainability and scalability.
 
-## /account
+Database: PostgreSQL is used as the database to store flashcard sets and user data.
 
-Gets a users claims information, requires authorization header with JWT token
+Technologies Used
+Front End: React
+Back End: ASP.NET Core
+Database: PostgreSQL
+Authentication: ASP.net Identity w/ JWT (JSON Web Tokens)
 
-# [Post] - Requires Auth
+Try the application for yourself at: https://bvtflashcards.fly.dev/
 
-## /sets
+Contact
+For any questions or inquiries, please contact me at tylerjgreen22@gmail.com.
 
-Creates a set, also creates the flashcards for that set. 
-
-## /account/login 
-
-Logins in a user, return JWT Token and user info
-
-## /account/register
-
-Registers a user, returns JWT Token and user info
-
-## /account/delete
-
-Deletes user account
-
-## /pictures/add
-
-Adds provided picture
-
-# [Put] - Requires Auth
-
-## /sets/{setId}
-
-Updates a set based on the setId. Updates flashcards with set
-
-## /account/username
-
-Change username for account
-
-## /account/password
-
-Change password for account
-
-# [Delete] - Requires Auth
-
-## /sets/{setId}
-
-Deletes a set based on the Set Id.
+Start creating, studying, and mastering your subjects with the BVT Flashcard Application! 📚📖
